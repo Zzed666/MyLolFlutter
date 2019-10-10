@@ -58,7 +58,14 @@ class _LolHomeState extends State<LolHome> {
       Response _response = await Dio().get(
           "https://www.fastmock.site/mock/14630744ec2c11c6b04a1c0638c9a839/firsttest/api/getLolLegendsList?page=$page");
       setState(() {
-        _lolLegendsList.addAll(lol_legends_list.fromJson(_response.data).datas);
+        List<Datas> _lolLegendDatas = lol_legends_list.fromJson(_response.data).datas;
+        if(_lolLegendDatas != null) {
+          _lolLegendsList.addAll(lol_legends_list
+              .fromJson(_response.data)
+              .datas);
+        }else{
+          print("暂无数据");
+        }
         isLoading = false;
         loadMore = false;
       });
