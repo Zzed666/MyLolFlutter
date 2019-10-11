@@ -230,7 +230,9 @@ class _LolHomeState extends State<LolHome> {
     final _selectSkinImgUrl = await Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => LolSelectSkin(legendId)));
     setState(() {
-      _lolLegendsList[index].legendImageUrl = _selectSkinImgUrl;
+      if(_selectSkinImgUrl != null) {
+        _lolLegendsList[index].legendImageUrl = _selectSkinImgUrl;
+      }
     });
   }
 }
