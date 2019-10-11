@@ -15,7 +15,7 @@ class lol_legends_list extends Object{
   @JsonKey(name: 'datas')
   List<Datas> datas;
 
-  lol_legends_list(this.code,this.msg,this.datas,);
+  lol_legends_list(this.code,this.msg,this.datas);
 
   factory lol_legends_list.fromJson(Map<String, dynamic> srcJson) => _$lol_legends_listFromJson(srcJson);
 
