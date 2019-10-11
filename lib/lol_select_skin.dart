@@ -52,7 +52,7 @@ class _LolSelectSkinState extends State<LolSelectSkin> {
                         width: 200.0,
                         height: 200.0,
                         child: Offstage(
-                            offstage: _hasDatas,
+                            offstage: _hasDatas || _isLoading,
                             child: Stack(children: <Widget>[
                               Opacity(
                                   opacity: 0.5,
