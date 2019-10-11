@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart' as prefix0;
-import 'package:flutter_app/beans/lol_legends_list.dart';
+import 'package:flutter_app/beans/lol_legends_list/lol_legends_list.dart';
+import 'package:flutter_app/lol_select_skin.dart';
 
 class LolHome extends StatefulWidget {
   @override
@@ -11,6 +11,7 @@ class LolHome extends StatefulWidget {
 
 class _LolHomeState extends State<LolHome> {
   List<Datas> _lolLegendsList = List();
+  List<Datas> _lolLegendsListBackUp = List();
   ScrollController _scrollController;
   bool isLoading = false;
   bool loadMore = false;
@@ -60,6 +61,7 @@ class _LolHomeState extends State<LolHome> {
       } else {
         page = 1;
         _lolLegendsList.clear();
+        _lolLegendsListBackUp.clear();
       }
       Response _response = await Dio().get(
           "https://www.fastmock.site/mock/14630744ec2c11c6b04a1c0638c9a839/firsttest/api/getLolLegendsList?page=$page");
@@ -68,6 +70,8 @@ class _LolHomeState extends State<LolHome> {
             lol_legends_list.fromJson(_response.data).datas;
         if (_lolLegendDatas != null) {
           _lolLegendsList
+              .addAll(lol_legends_list.fromJson(_response.data).datas);
+          _lolLegendsListBackUp
               .addAll(lol_legends_list.fromJson(_response.data).datas);
         } else {
           print("暂无数据");
@@ -86,7 +90,7 @@ class _LolHomeState extends State<LolHome> {
             padding: EdgeInsets.all(10.0),
             child: Text(
               _lolLegendsList[index].legendName,
-              style: prefix0.TextStyle(fontSize: 16.0, color: Colors.white),
+              style: TextStyle(fontSize: 16.0, color: Colors.white),
               textAlign: TextAlign.left,
             )),
         Container(
@@ -128,9 +132,9 @@ class _LolHomeState extends State<LolHome> {
                                             constraints: BoxConstraints.expand(
                                                 width: 120.0, height: 120.0),
                                             child: Image.network(
-                                                _lolLegendsList[index]
+                                                _lolLegendsListBackUp[index]
                                                     .legendImageUrl,
-                                                fit: BoxFit.cover))),
+                                                fit: BoxFit.fill))),
                                     Container(
                                         width: 200.0,
                                         margin: EdgeInsets.only(left: 10.0),
@@ -198,7 +202,13 @@ class _LolHomeState extends State<LolHome> {
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               4.0)),
-                                                  onPressed: () {})
+                                                  onPressed: () {
+                                                    _skipToSelectSkin(
+                                                        context,
+                                                        index,
+                                                        _lolLegendsList[index]
+                                                            .legendId);
+                                                  })
                                             ]))
                                   ]))))))
             ]))
@@ -214,5 +224,13 @@ class _LolHomeState extends State<LolHome> {
               CircularProgressIndicator(strokeWidth: 1.0),
               Text("加载中...")
             ])));
+  }
+
+  Future _skipToSelectSkin(BuildContext context, int index,String legendId) async {
+    final _selectSkinImgUrl = await Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => LolSelectSkin(legendId)));
+    setState(() {
+      _lolLegendsList[index].legendImageUrl = _selectSkinImgUrl;
+    });
   }
 }
