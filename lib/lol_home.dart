@@ -235,4 +235,9 @@ class _LolHomeState extends State<LolHome> {
       }
     });
   }
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 }
