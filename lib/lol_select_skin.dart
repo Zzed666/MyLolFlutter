@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_app/beans/lol_legend_skins/lol_legend_skins.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:flutter_app/lol_skin_skan.dart';
 
 class LolSelectSkin extends StatefulWidget {
   String legendId;
@@ -232,6 +233,9 @@ class _LolSelectSkinState extends State<LolSelectSkin> {
                         setState(() {
                           _skinIndex = index;
                         });
+                      },
+                      onTap: (index){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => LolSkinSkan(skinIndex: index,skinUrl: _skinList[index].skinImgUrl)));
                       },
                       viewportFraction: 0.8,
                       scale: 0.6,
