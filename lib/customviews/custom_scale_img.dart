@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_app/customviews/gesture/custom_gesture_detector.dart'
     as gd;
@@ -51,7 +49,7 @@ class _CustomScaleImageState extends State<CustomScaleImage>
               transform: Matrix4.identity()
                 ..translate(_offset.dx, _offset.dy)
                 ..scale(_scale, _scale, 1.0),
-              child: Image.network(widget.imgUrl, fit: BoxFit.cover),
+              child: Image.network(widget.imgUrl, fit: BoxFit.contain),
             )));
   }
 
@@ -104,8 +102,8 @@ class _CustomScaleImageState extends State<CustomScaleImage>
    * */
   void _handleScaleOnUpdate(gd.ScaleUpdateDetails scaleUpdateDetails) {
     setState(() {
-      //设置放大的倍数为1~3倍这个区间
-      _scale = (_previousScale * scaleUpdateDetails.scale).clamp(1.0, 3.0);
+      //设置放大的倍数为1~5倍这个区间
+      _scale = (_previousScale * scaleUpdateDetails.scale).clamp(1.0, 5.0);
       //计算缩放偏移量
       Offset _originOffset =
           (scaleUpdateDetails.focalPoint - _normalizedOffset * _scale);
