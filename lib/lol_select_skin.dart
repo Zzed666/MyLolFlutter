@@ -231,7 +231,11 @@ class _LolSelectSkinState extends State<LolSelectSkin> {
           Container(
               alignment: Alignment.center,
               constraints: BoxConstraints.expand(
-                  width: MediaQuery.of(context).size.width, height: 300.0),
+                  width: MediaQuery.of(context).size.width >
+                          MediaQuery.of(context).size.height
+                      ? 5 * MediaQuery.of(context).size.width / 12
+                      : MediaQuery.of(context).size.width,
+                  height: 5 * MediaQuery.of(context).size.height / 12),
               child: Swiper(
 //                  control: _swiperControl,
                   onIndexChanged: (index) {

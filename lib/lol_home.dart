@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 import 'package:dio/dio.dart';
 import 'package:flutter_app/beans/lol_legends_list/lol_legends_list.dart';
+import 'package:flutter_app/customviews/custom_click_button.dart';
 import 'package:flutter_app/lol_select_skin.dart';
 
 class LolHome extends StatefulWidget {
@@ -184,31 +186,33 @@ class _LolHomeState extends State<LolHome> {
                                                             color:
                                                                 Colors.white))
                                                   ])),
-                                              FlatButton(
-                                                  child: Text("Select Skin",
-                                                      style: TextStyle(
-                                                          fontSize: 12.0)),
-                                                  textColor: Colors.white,
-                                                  disabledTextColor:
-                                                      Colors.blueGrey,
-                                                  color: Colors.lightBlue,
-                                                  disabledColor: Colors.grey,
-                                                  highlightColor: Colors.brown,
-                                                  splashColor: Colors.black12,
-                                                  padding: EdgeInsets.all(2.0),
-                                                  colorBrightness:
-                                                      Brightness.dark,
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              4.0)),
-                                                  onPressed: () {
-                                                    _skipToSelectSkin(
-                                                        context,
-                                                        index,
-                                                        _lolLegendsList[index]
-                                                            .legendId);
-                                                  })
+                                              _getBtnWidget(context,index,_lolLegendsList[index].legendId)
+//                                              FlatButton(
+//                                                  child: Text("Select Skin",
+//                                                      style: TextStyle(
+//                                                          fontSize: 12.0)),
+//                                                  textColor: Colors.white,
+//                                                  disabledTextColor:
+//                                                      Colors.blueGrey,
+//                                                  color: Colors.lightBlue,
+//                                                  disabledColor: Colors.grey,
+//                                                  highlightColor: Colors.brown,
+//                                                  splashColor: Colors.black12,
+//                                                  padding: EdgeInsets.all(2.0),
+//                                                  colorBrightness:
+//                                                      Brightness.dark,
+//                                                  shape: RoundedRectangleBorder(
+//                                                      borderRadius:
+//                                                          BorderRadius.circular(
+//                                                              4.0)),
+//                                                  onPressed: () {
+//                                                    _skipToSelectSkin(
+//                                                        context,
+//                                                        index,
+//                                                        _lolLegendsList[index]
+//                                                            .legendId);
+//                                                  })
+
                                             ]))
                                   ]))))))
             ]))
@@ -224,6 +228,14 @@ class _LolHomeState extends State<LolHome> {
               CircularProgressIndicator(strokeWidth: 1.0),
               Text("加载中...")
             ])));
+  }
+
+  Widget _getBtnWidget(BuildContext context, int index,String legendId){
+    VoidCallback _clickFuction = (){
+      _skipToSelectSkin(context, index, legendId);
+    };
+    CustomClickButton _customClickButton = CustomClickButton(isEnable: true,btnWidth: 85.0,btnHeight: 30.0,btnText: "Select Skin",clickFunction: _clickFuction);
+    return _customClickButton;
   }
 
   Future _skipToSelectSkin(BuildContext context, int index,String legendId) async {
