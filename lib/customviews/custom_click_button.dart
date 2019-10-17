@@ -100,7 +100,10 @@ class _CustomClickButtonState extends State<CustomClickButton>
                 child: Text(widget.btnText,
                     style: TextStyle(fontSize: 12.0, color: _btnTextColor))));
       } else {
-        return Text(widget.btnText);
+        setState(() {
+          _opacity = 0.8;
+        });
+        return Text(widget.btnText,style: TextStyle(color: Colors.grey));
       }
     } else {
       return Text("");
