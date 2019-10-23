@@ -251,7 +251,7 @@ class _LolSelectSkinState extends State<LolSelectSkin> {
                             skinUrl: _skinList[index].skinImgUrl)));
                   },
                   viewportFraction: 0.8,
-                  scale: 0.6,
+                  scale: 0.9,
                   //轮播点
                   pagination: SwiperPagination(
                       builder: DotSwiperPaginationBuilder(
