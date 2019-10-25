@@ -6,12 +6,12 @@ import 'package:flutter_app/beans/lol_legends_list/lol_legends_list.dart';
 import 'package:flutter_app/customviews/custom_click_button.dart';
 import 'package:flutter_app/lol_select_skin.dart';
 
-class LolHome extends StatefulWidget {
+class LolLengends extends StatefulWidget {
   @override
-  _LolHomeState createState() => _LolHomeState();
+  _LolLengendsState createState() => _LolLengendsState();
 }
 
-class _LolHomeState extends State<LolHome> {
+class _LolLengendsState extends State<LolLengends> {
   List<Datas> _lolLegendsList = List();
   List<Datas> _lolLegendsListBackUp = List();
   ScrollController _scrollController;

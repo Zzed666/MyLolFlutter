@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/lol_home.dart';
 import 'package:flutter_app/customviews/custom_progress_circle.dart';
+import 'package:flutter_app/view/lolmain/lol_main.dart';
 
 class LolSplash extends StatefulWidget {
   @override
@@ -20,7 +20,7 @@ class _LolSplashState extends State<LolSplash>
     _animationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => LolHome()),
+            MaterialPageRoute(builder: (context) => LoLMain()),
             (route) => route == null);
       }
     });
@@ -44,7 +44,7 @@ class _LolSplashState extends State<LolSplash>
           child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => LolHome()), (route) => route == null);
+                    MaterialPageRoute(builder: (context) => LoLMain()), (route) => route == null);
                 _animationController.dispose();
               },
               child: SizedBox(
