@@ -25,6 +25,7 @@ class LoLMainBottomItem extends StatefulWidget {
 
 class _LoLMainBottomItemState extends State<LoLMainBottomItem> {
   Color _iconColor;
+  Color _iconTextColor;
 
   @override
   void initState() {
@@ -39,17 +40,20 @@ class _LoLMainBottomItemState extends State<LoLMainBottomItem> {
         margin: EdgeInsets.all(8.0),
         child: Column(children: <Widget>[
           Icon(widget.iconData,color: _iconColor),
-          Text(widget.iconText)
+          Text(widget.iconText,style: TextStyle(color: _iconTextColor))
         ]));
   }
 
   void _setIconColor(int index,bool select) {
     print("_setIconColor index $index select $select");
     setState(() {
-      if (select)
+      if (select) {
         _iconColor = Colors.orange;
-      else
+        _iconTextColor = Colors.orange;
+      }else {
         _iconColor = Colors.grey;
+        _iconTextColor = Colors.grey;
+      }
     });
   }
 }

@@ -11,7 +11,7 @@ class LolLengends extends StatefulWidget {
   _LolLengendsState createState() => _LolLengendsState();
 }
 
-class _LolLengendsState extends State<LolLengends> {
+class _LolLengendsState extends State<LolLengends> with AutomaticKeepAliveClientMixin{
   List<Datas> _lolLegendsList = List();
   List<Datas> _lolLegendsListBackUp = List();
   ScrollController _scrollController;
@@ -38,19 +38,13 @@ class _LolLengendsState extends State<LolLengends> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Container(
-            constraints: BoxConstraints.expand(),
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage("images/img_lol_bg.jpg"),
-                    fit: BoxFit.cover)),
-            child: RefreshIndicator(
+    super.build(context);
+    return RefreshIndicator(
                 onRefresh: _getLolLegendsList,
                 child: ListView.builder(
                     itemCount: _lolLegendsList.length + 1,
                     itemBuilder: _itemWidget,
-                    controller: _scrollController))));
+                    controller: _scrollController));
   }
 
   Future _getLolLegendsList() async {
@@ -252,4 +246,7 @@ class _LolLengendsState extends State<LolLengends> {
     _scrollController.dispose();
     super.dispose();
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
