@@ -11,7 +11,7 @@ import 'package:flutter_app/customviews/custom_search_widget.dart';
 import 'package:flutter_app/view/view_model_provider.dart';
 import 'package:flutter_app/viewmodel/lolmain/lol_main_view_model.dart';
 
-import 'lol_main_drawer.dart';
+import 'lol_main_drawer/lol_main_drawer.dart';
 
 const List<String> bottomBarList = ["资讯", "商城", "盟友圈", "战绩"];
 const List<IconData> bottomBarIconList = [
@@ -83,7 +83,16 @@ class _LoLMainState extends State<LoLMain> with TickerProviderStateMixin {
                       return _getAppBarLeadingIcon(
                           () => _scaffoldKey.currentState.openDrawer());
                     })),
-                drawer: LolMainDrawer(),
+                drawer: StreamBuilder(
+                    stream: _lolMainViewModel.lolMainAccountDataStream,
+                    builder:
+                        (BuildContext context, AsyncSnapshot<Datas> snapshot) {
+                      String drawerIconUrl;
+                      if (snapshot.connectionState == ConnectionState.active) {
+                        drawerIconUrl = snapshot.data.accountHeadPortrait;
+                      }
+                      return LolMainDrawer(mainDrawerIconUrl: drawerIconUrl);
+                    }),
                 body: _getBody(),
                 bottomNavigationBar: BottomAppBar(
                     color: Colors.white,
@@ -99,16 +108,15 @@ class _LoLMainState extends State<LoLMain> with TickerProviderStateMixin {
         icon: StreamBuilder(
             stream: _lolMainViewModel.lolMainAccountDataStream,
             builder: (BuildContext context, AsyncSnapshot<Datas> snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return CustomCircleIcon(
-                    iconWidth: 30.0,
-                    iconHeight: 30.0,
-                    iconCircleBorderWidth: 1.0);
+              String leadingIconUrl;
+              if (snapshot.connectionState == ConnectionState.active) {
+                //TODO 这里设置leadingIconUrl不可以使用setState
+                leadingIconUrl = snapshot.data.accountHeadPortrait;
               }
               return CustomCircleIcon(
                   iconWidth: 30.0,
                   iconHeight: 30.0,
-                  iconUrl: snapshot.data.accountHeadPortrait,
+                  iconUrl: leadingIconUrl,
                   iconCircleBorderWidth: 1.0);
             }),
         onPressed: voidCallback);
