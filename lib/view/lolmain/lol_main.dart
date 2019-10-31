@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/beans/lol_account_info/lol_account_info.dart';
 import 'package:flutter_app/customviews/custom_bakground.dart';
+import 'package:flutter_app/customviews/custom_circle_icon.dart';
 import 'package:flutter_app/lol_legends.dart';
-import 'package:flutter_app/view/lolmain/lol_main_app_bar_leading_icon.dart';
 import 'package:flutter_app/view/lolmain/lol_main_bottom_item.dart';
 import 'package:flutter_app/customviews/custom_search_widget.dart';
 import 'package:flutter_app/view/view_model_provider.dart';
@@ -80,7 +80,8 @@ class _LoLMainState extends State<LoLMain> with TickerProviderStateMixin {
                     title: _getAppBarTitle(),
                     centerTitle: true,
                     leading: Builder(builder: (BuildContext context) {
-                      return _getAppBarLeadingIcon(()=>_scaffoldKey.currentState.openDrawer());
+                      return _getAppBarLeadingIcon(
+                          () => _scaffoldKey.currentState.openDrawer());
                     })),
                 drawer: LolMainDrawer(),
                 body: _getBody(),
@@ -99,13 +100,16 @@ class _LoLMainState extends State<LoLMain> with TickerProviderStateMixin {
             stream: _lolMainViewModel.lolMainAccountDataStream,
             builder: (BuildContext context, AsyncSnapshot<Datas> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return LolMainAppBarLeadingIcon(
-                    iconWidth: 30.0, iconHeight: 30.0);
+                return CustomCircleIcon(
+                    iconWidth: 30.0,
+                    iconHeight: 30.0,
+                    iconCircleBorderWidth: 1.0);
               }
-              return LolMainAppBarLeadingIcon(
+              return CustomCircleIcon(
                   iconWidth: 30.0,
                   iconHeight: 30.0,
-                  iconUrl: snapshot.data.accountHeadPortrait);
+                  iconUrl: snapshot.data.accountHeadPortrait,
+                  iconCircleBorderWidth: 1.0);
             }),
         onPressed: voidCallback);
   }
