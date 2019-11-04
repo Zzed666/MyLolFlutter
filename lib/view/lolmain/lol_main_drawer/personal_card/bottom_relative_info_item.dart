@@ -1,14 +1,11 @@
-import 'dart:collection';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/beans/lol_account_info/lol_account_info.dart';
+import 'package:flutter_app/view/lolmain/lol_main_drawer/personal_card/bottom_relative_info_item_number.dart';
 
 class BottomRelativeInfo extends StatefulWidget {
-  final int attention;
-  final int fans;
-  final int goodFriends;
-  final int publish;
+  final Stream<LolAccountInfoDatas> lolMainStream;
 
-  BottomRelativeInfo(
-      {this.attention: 0, this.fans: 0, this.goodFriends: 0, this.publish: 0});
+  BottomRelativeInfo({this.lolMainStream});
 
   @override
   _BottomRelativeInfoState createState() => _BottomRelativeInfoState();
@@ -16,8 +13,6 @@ class BottomRelativeInfo extends StatefulWidget {
 
 class _BottomRelativeInfoState extends State<BottomRelativeInfo> {
   List<String> _textList = ["关注", "粉丝", "好友", "发表"];
-  Map<String, dynamic> _infoMap = HashMap();
-
   GlobalKey _myKey = new GlobalKey();
 
   double _itemWidth;
@@ -25,11 +20,6 @@ class _BottomRelativeInfoState extends State<BottomRelativeInfo> {
 
   @override
   void initState() {
-    _infoMap[_textList[0]] = widget.attention;
-    _infoMap[_textList[1]] = widget.fans;
-    _infoMap[_textList[2]] = widget.goodFriends;
-    _infoMap[_textList[3]] = widget.publish;
-
     WidgetsBinding.instance.addPostFrameCallback(_getSizes);
 
     _itemWidth = 10.0;
@@ -48,14 +38,15 @@ class _BottomRelativeInfoState extends State<BottomRelativeInfo> {
                 height: 55.0,
                 margin: EdgeInsets.only(top: 6.0),
                 child: ListView.builder(
-                    itemCount: _infoMap.length,
+                    itemCount: _textList.length,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       return Container(
                           width: _itemWidth,
                           child: GestureDetector(
                               onTap: () {
-                                print("BottomRelativeInfo item index $index isClicked");
+                                print(
+                                    "BottomRelativeInfo item index $index isClicked");
                               },
                               child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -63,11 +54,8 @@ class _BottomRelativeInfoState extends State<BottomRelativeInfo> {
                                   children: <Widget>[
                                     Padding(
                                         padding: EdgeInsets.all(1.5),
-                                        child: Text(
-                                            "${_infoMap[_textList[index]]}",
-                                            style: TextStyle(
-                                                color: Colors.orangeAccent,
-                                                fontSize: 14.0))),
+                                        child: _getRelativeInfoItemNumberStream(
+                                            index)),
                                     Padding(
                                         padding: EdgeInsets.all(1.5),
                                         child: Text(_textList[index],
@@ -76,6 +64,46 @@ class _BottomRelativeInfoState extends State<BottomRelativeInfo> {
                                                 fontSize: 12.0)))
                                   ])));
                     }))));
+  }
+
+  Widget _getRelativeInfoItemNumberStream(index) {
+    return StreamBuilder(
+        stream: widget.lolMainStream,
+        builder: (BuildContext context,
+            AsyncSnapshot<LolAccountInfoDatas> snapshot) {
+          int accountAttentions = 0;
+          int accountFans = 0;
+          int accountGoodFriends = 0;
+          int accountPublishs = 0;
+          if (snapshot.connectionState == ConnectionState.active) {
+            AccountPersonal accountPersonal = snapshot.data.accountPersonal;
+            accountAttentions = accountPersonal.attentions;
+            accountFans = accountPersonal.fans;
+            accountGoodFriends = accountPersonal.goodFriends;
+            accountPublishs = accountPersonal.publishes;
+          }
+          return _getRelativeInfoItemNumber(index, accountAttentions,
+              accountFans, accountGoodFriends, accountPublishs);
+        });
+  }
+
+  Widget _getRelativeInfoItemNumber(index, accountAttentions, accountFans,
+      accountGoodFriends, accountPublishs) {
+    switch (_textList[index]) {
+      case "关注":
+        return RelativeInfoItemNumber(numberValue: accountAttentions);
+        break;
+      case "粉丝":
+        return RelativeInfoItemNumber(numberValue: accountFans);
+        break;
+      case "好友":
+        return RelativeInfoItemNumber(numberValue: accountGoodFriends);
+        break;
+      case "发表":
+        return RelativeInfoItemNumber(numberValue: accountPublishs);
+        break;
+    }
+    return RelativeInfoItemNumber();
   }
 
   ///https://www.cnblogs.com/pythonClub/p/10869832.html

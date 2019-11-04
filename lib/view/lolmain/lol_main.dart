@@ -83,16 +83,7 @@ class _LoLMainState extends State<LoLMain> with TickerProviderStateMixin {
                       return _getAppBarLeadingIcon(
                           () => _scaffoldKey.currentState.openDrawer());
                     })),
-                drawer: StreamBuilder(
-                    stream: _lolMainViewModel.lolMainAccountDataStream,
-                    builder:
-                        (BuildContext context, AsyncSnapshot<Datas> snapshot) {
-                      String drawerIconUrl;
-                      if (snapshot.connectionState == ConnectionState.active) {
-                        drawerIconUrl = snapshot.data.accountHeadPortrait;
-                      }
-                      return LolMainDrawer(mainDrawerIconUrl: drawerIconUrl);
-                    }),
+                drawer: LolMainDrawer(lolMainStream: _lolMainViewModel.lolMainAccountDataStream),
                 body: _getBody(),
                 bottomNavigationBar: BottomAppBar(
                     color: Colors.white,
@@ -107,7 +98,7 @@ class _LoLMainState extends State<LoLMain> with TickerProviderStateMixin {
     return IconButton(
         icon: StreamBuilder(
             stream: _lolMainViewModel.lolMainAccountDataStream,
-            builder: (BuildContext context, AsyncSnapshot<Datas> snapshot) {
+            builder: (BuildContext context, AsyncSnapshot<LolAccountInfoDatas> snapshot) {
               String leadingIconUrl;
               if (snapshot.connectionState == ConnectionState.active) {
                 //TODO 这里设置leadingIconUrl不可以使用setState
