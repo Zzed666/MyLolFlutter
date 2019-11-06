@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/beans/lol_account_info/lol_account_info.dart';
+import 'package:flutter_app/view/lolmain/lol_main_drawer/mine_list/lol_main_mine_list_item.dart';
 
 class LolMainMineList extends StatefulWidget {
   final Stream<LolAccountInfoDatas> lolMainStream;
 
   LolMainMineList({this.lolMainStream});
+
   @override
   _LolMainMineListState createState() => _LolMainMineListState();
 }
 
 class _LolMainMineListState extends State<LolMainMineList> {
   List<String> _textList = ["与我相关", "活动中心", "我的订单", "我的任务", "我的收藏"];
-  List<IconData> _iconList = [
-    Icons.mail,
-    Icons.business_center,
-    Icons.receipt,
-    Icons.book,
-    Icons.collections
-  ];
 
   @override
   void initState() {
@@ -37,21 +32,9 @@ class _LolMainMineListState extends State<LolMainMineList> {
   }
 
   Widget _getListViewItem(context, index) {
-    return Container(
-        padding: EdgeInsets.fromLTRB(30.0, 15.0, 15.0, 15.0),
-        child: GestureDetector(
-            onTap: () {
-              print("LolMainMineList click item $index");
-            },
-            child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Icon(_iconList[index], color: Colors.white, size: 14.0),
-                  Padding(
-                      padding: EdgeInsets.only(left: 30.0),
-                      child: Text(_textList[index],
-                          style:
-                              TextStyle(color: Colors.white, fontSize: 14.0)))
-                ])));
+    return LolMainMineListItem(
+        lolMainStream: widget.lolMainStream,
+        itemIndex: index,
+        itemText: _textList[index]);
   }
 }
