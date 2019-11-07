@@ -4,6 +4,7 @@ import 'package:flutter_app/lol_splash.dart';
 
 
 void main(){
+  WidgetsFlutterBinding.ensureInitialized();
   // 强制竖屏
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,

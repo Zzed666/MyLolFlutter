@@ -1,6 +1,6 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/beans/lol_account_info/lol_account_info.dart';
+import 'package:flutter_app/http/http_util.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter_app/viewmodel/base_view_model.dart';
 
@@ -19,11 +19,11 @@ class LolMainViewModel extends BaseViewModel {
 
   @override
   Future refreshData(BuildContext context) async {
-    Response _response = await Dio().get(
-        "https://www.fastmock.site/mock/14630744ec2c11c6b04a1c0638c9a839/firsttest/api/getMainAccountInfo?accountNumber=111111111");
-    LolAccountInfoDatas accountInfoDatas =
-        lol_account_info.fromJson(_response.data).datas;
-    _lolMainAccountDataObserable.add(accountInfoDatas);
+    HttpUtil.getInstance().get("/api/getMainAccountInfo?accountNumber=111111111", (responseData){
+      LolAccountInfoDatas accountInfoDatas =
+          lol_account_info.fromJson(responseData).datas;
+      _lolMainAccountDataObserable.add(accountInfoDatas);
+    });
   }
 
   @override
