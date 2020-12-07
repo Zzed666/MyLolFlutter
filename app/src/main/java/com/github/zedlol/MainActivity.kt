@@ -1,8 +1,7 @@
-package com.example.lol
+package com.github.zedlol
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.testdemo.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

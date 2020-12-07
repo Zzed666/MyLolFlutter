@@ -8,7 +8,7 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.example.testdemo"
+        applicationId "com.github.zedlol"
         minSdkVersion 19
         targetSdkVersion 30
         versionCode 1

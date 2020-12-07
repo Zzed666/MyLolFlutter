@@ -1,4 +1,4 @@
-package com.example.testdemo
+package com.github.zedlol
 
 import org.junit.Test
 
